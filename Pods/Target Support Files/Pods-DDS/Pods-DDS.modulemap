@@ -1,0 +1,6 @@
+framework module Pods_DDS {
+  umbrella header "Pods-DDS-umbrella.h"
+
+  export *
+  module * { export * }
+}

@@ -33,7 +33,8 @@ struct OrderServices {
                                     params: ["orderStatus" : orderStatus,
                                              "date": Helper.getCurrentDateOnly(),
                                              "device_uuid": deviceUUID,
-                                             "device_name": deviceName],
+                                             "device_name": deviceName,
+                                             "dockets": selectedSections],
                                     method: .post)
         Logs.writeLog(onDate: Helper.getCurrentDateAndTime(), andDescription: "Get History Orders API called \(apiRequest).")
 
@@ -47,16 +48,18 @@ struct OrderServices {
         }
     }
     
-    func markOrderAsCompleted(forOrderNumber orderNo: Int, andSequenceNo seqNo: Int, completion: @escaping (Result<GeneralResponse, Error>) -> ()) {
-        let apiRequest = ApiRequest(url: "\(baseURL)/mark_kds_as_completed",
+    func markOrderAsCompleted(forOrderNumber orderNo: Int, andSequenceNo seqNo: Int, forAddedProductIDs addedProductIDs: [Int], completion: @escaping (Result<GeneralResponse, Error>) -> ()) {
+        let apiRequest = ApiRequest(url: "\(baseURL)/mark_kds_items_delivered",
                                     params: ["id_order": orderNo,
                                              "seq_no": seqNo,
+                                             "added_product_ids": addedProductIDs,
+                                             "sections_completed": selectedSections,
                                              "device_uuid": deviceUUID,
                                              "device_name": deviceName],
                                     method: .post)
         Logs.writeLog(onDate: Helper.getCurrentDateAndTime(), andDescription: "Mark Order As Completed API called \(apiRequest).")
         
-        WebService.shared.request(request: apiRequest) { (result: Result<GeneralResponse, Error>) in
+        WebService.shared.requestWithJSON(request: apiRequest) { (result: Result<GeneralResponse, Error>) in
             switch result {
                 case .failure(let error):
                     completion(.failure(error))
@@ -66,16 +69,17 @@ struct OrderServices {
         }
     }
     
-    func markOrderAsActive(forOrderNumber orderNo: Int, andSequenceNo seqNo: Int, completion: @escaping (Result<GeneralResponse, Error>) -> ()) {
+    func markOrderAsActive(forOrderNumber orderNo: Int, andSequenceNo seqNo: Int, withProductSections productSections: [String], completion: @escaping (Result<GeneralResponse, Error>) -> ()) {
         let apiRequest = ApiRequest(url: "\(baseURL)/mark_kds_as_active",
                                     params: ["id_order": orderNo,
                                              "seq_no": seqNo,
                                              "device_uuid": deviceUUID,
-                                             "device_name": deviceName],
+                                             "device_name": deviceName,
+                                             "dockets": productSections],
                                     method: .post)
         Logs.writeLog(onDate: Helper.getCurrentDateAndTime(), andDescription: "Mark Order As Active API called \(apiRequest).")
 
-        WebService.shared.request(request: apiRequest) { (result: Result<GeneralResponse, Error>) in
+        WebService.shared.requestWithJSON(request: apiRequest) { (result: Result<GeneralResponse, Error>) in
             switch result {
                 case .failure(let error):
                     completion(.failure(error))
@@ -84,7 +88,6 @@ struct OrderServices {
             }
         }
     }
-    
     func markOrderAsUrgent(forOrderNumber orderNo: Int, andSequenceNo seqNo: Int, completion: @escaping (Result<GeneralResponse, Error>) -> ()) {
         let apiRequest = ApiRequest(url: "\(baseURL)/mark_kds_as_urgent",
                                     params: ["id_order": orderNo,

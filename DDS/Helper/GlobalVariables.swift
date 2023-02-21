@@ -105,3 +105,5 @@ struct RoundedCorner: Shape {
 }
 
 var docketSectionOptions = [DocketOptions]()
+
+var historyOrdersTimer: Timer?

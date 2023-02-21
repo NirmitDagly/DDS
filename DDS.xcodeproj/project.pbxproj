@@ -53,6 +53,7 @@
 		E86DEBF4295E64AF008DF2BE /* Helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = E86DEBF3295E64AF008DF2BE /* Helper.swift */; };
 		E86DEBFA295E6799008DF2BE /* LogService.swift in Sources */ = {isa = PBXBuildFile; fileRef = E86DEBF9295E6799008DF2BE /* LogService.swift */; };
 		E8788A8E296788AE0095D358 /* DocketSections.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8788A8D296788AE0095D358 /* DocketSections.swift */; };
+		E884ED1229A48620003DEA6F /* CompletedOrdersView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E884ED1129A48620003DEA6F /* CompletedOrdersView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -107,6 +108,7 @@
 		E86DEBF3295E64AF008DF2BE /* Helper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Helper.swift; sourceTree = "<group>"; };
 		E86DEBF9295E6799008DF2BE /* LogService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogService.swift; sourceTree = "<group>"; };
 		E8788A8D296788AE0095D358 /* DocketSections.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocketSections.swift; sourceTree = "<group>"; };
+		E884ED1129A48620003DEA6F /* CompletedOrdersView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompletedOrdersView.swift; sourceTree = "<group>"; };
 		FBDAA98D2E38F6201E395D88 /* Pods-DDS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DDS.release.xcconfig"; path = "Target Support Files/Pods-DDS/Pods-DDS.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -161,6 +163,7 @@
 			isa = PBXGroup;
 			children = (
 				E838B7062963FC800033EF57 /* ActiveOrdersView.swift */,
+				E884ED1129A48620003DEA6F /* CompletedOrdersView.swift */,
 			);
 			path = Orders;
 			sourceTree = "<group>";
@@ -477,6 +480,7 @@
 				E86DEBDE295E63E5008DF2BE /* GetDocketResponse.swift in Sources */,
 				E86DEBBE295E5E95008DF2BE /* Extension.swift in Sources */,
 				E86DEBF0295E63F1008DF2BE /* CommonService.swift in Sources */,
+				E884ED1229A48620003DEA6F /* CompletedOrdersView.swift in Sources */,
 				E86DEBEE295E63F1008DF2BE /* WebRequests.swift in Sources */,
 				E86DEBF4295E64AF008DF2BE /* Helper.swift in Sources */,
 				E86DEBE1295E63E5008DF2BE /* UpdateAppVersionResponse.swift in Sources */,
@@ -637,7 +641,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = DDS/DDS.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 3;
 				DEVELOPMENT_ASSET_PATHS = "\"DDS/Preview Content\"";
 				DEVELOPMENT_TEAM = 4XF5KZD4AY;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
@@ -682,7 +686,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = DDS/DDS.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 3;
 				DEVELOPMENT_ASSET_PATHS = "\"DDS/Preview Content\"";
 				DEVELOPMENT_TEAM = 4XF5KZD4AY;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";

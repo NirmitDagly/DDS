@@ -1,9 +1,9 @@
-    //
-    //  ActiveOrdersView.swift
-    //  DDS
-    //
-    //  Created by Nirmit Dagly on 3/1/2023.
-    //
+//
+//  ActiveOrdersView.swift
+//  DDS
+//
+//  Created by Nirmit Dagly on 3/1/2023.
+//
 
 import SwiftUI
 
@@ -14,6 +14,7 @@ struct ActiveOrdersView_Previews: PreviewProvider {
 }
 
 struct ActiveOrdersView: View {
+    @State var shouldShowHistoryOrders = false
     @State var shouldShowSettings = false
     @State var shouldShowRundown = false
     
@@ -26,7 +27,7 @@ struct ActiveOrdersView: View {
     var body: some View {
         ZStack() {
             VStack(spacing: 0) {
-                CustomNavigationView(title: "Active Orders", displayRundown: displayRundown, shouldShowSettings: $shouldShowSettings, shouldShowRundown: $shouldShowRundown)
+                CustomNavigationView(title: "Active Orders", displayRundown: displayRundown, shouldShowHistoryOrders: $shouldShowHistoryOrders, shouldShowSettings: $shouldShowSettings, shouldShowRundown: $shouldShowRundown)
                 
                 Spacer()
                 
@@ -59,6 +60,7 @@ struct ActiveOrdersView: View {
                     shouldShowAlert = false
                     
                     fetchActiveOrders.getActiveOrders()
+                    shouldDisplayRunDownOption()
                 }
             }
         }
@@ -67,17 +69,27 @@ struct ActiveOrdersView: View {
         .edgesIgnoringSafeArea(.all)
         .stackNavigationView()
     }
+    
+    func shouldDisplayRunDownOption() {
+        if fetchActiveOrders.orders.count > 0 {
+            displayRundown.shouldDisplayRundown = true
+        }
+        else {
+            displayRundown.shouldDisplayRundown = false
+        }
+    }
 }
 
 struct CustomNavigationView: View {
     var title: String
     @ObservedObject var displayRundown: DisplayRunDownList
+    @Binding var shouldShowHistoryOrders: Bool
     @Binding var shouldShowSettings: Bool
     @Binding var shouldShowRundown: Bool
     
     var body: some View {
         HStack() {
-            if shouldShowRundown == true {
+            if displayRundown.shouldDisplayRundown == true {
                 Button {
                     displayRundown.shouldDisplayRundown.toggle()
                 } label: {
@@ -104,11 +116,17 @@ struct CustomNavigationView: View {
             Spacer()
             
             HStack {
-                Text("Completed Orders")
-                    .foregroundColor(.white)
-                    .font(.customFont(withWeight: .medium, withSize: 20))
-                    .frame(alignment: .center)
-                    .padding(.trailing, 10)
+                NavigationLink(destination: CompletedOrdersView(shouldShowAlert: docketSections.count > 0 ? false : true), isActive: $shouldShowHistoryOrders) {
+                    Button {
+                        shouldShowHistoryOrders = true
+                    } label: {
+                        Text("Completed Orders")
+                            .foregroundColor(.white)
+                            .font(.customFont(withWeight: .medium, withSize: 20))
+                            .frame(alignment: .center)
+                            .padding(.trailing, 10)
+                    }
+                }
                 
                 NavigationLink(destination: Settings(), isActive: $shouldShowSettings) {
                     Button {
@@ -264,7 +282,7 @@ struct ProductListView: View {
                                         fetchedOrders.orders[i].products[j].isDelivered = 0
                                     }
                                     
-                                    fetchedOrders.markIndividualItemAsDelivered(forOrderNo: order.terminalOrderNo, andSequenceNo: order.sequenceNo, andAddedProductID: fetchedOrders.orders[i].products[j].addedProductID!, andIsDelivered: fetchedOrders.orders[i].products[j].isDelivered ?? 0)
+                                    fetchedOrders.markIndividualItemAsDelivered(forOrderNo: order.orderNo, andSequenceNo: order.sequenceNo, andAddedProductID: fetchedOrders.orders[i].products[j].addedProductID!, andIsDelivered: fetchedOrders.orders[i].products[j].isDelivered ?? 0)
                                     break
                                 }
                             }
@@ -293,6 +311,7 @@ struct ProductListView: View {
                     .font(.customFont(withWeight: .medium, withSize: 16))
                     .frame(alignment: .leading)
                     .padding([.leading, .trailing], 10)
+                    .padding(.top, 2.5)
                 
                 Spacer()
             }
@@ -307,7 +326,7 @@ struct OrderTypeView: View {
     var body: some View {
         HStack {
             Text(order.deliveryType.rawValue)
-                .font(.customFont(withWeight: .medium, withSize: 14))
+                .font(.customFont(withWeight: .medium, withSize: 16))
                 .foregroundColor(.white)
                 .multilineTextAlignment(.leading)
                 .padding([.leading, .top], 10)
@@ -345,7 +364,13 @@ struct OrderNumberView: View {
                 .padding([.leading], 10)
             Spacer()
             Button {
+                let allProducts = order.products
+                var addedProductIDs = [Int]()
+                for i in 0 ..< allProducts.count {
+                    addedProductIDs.append(allProducts[i].addedProductID!)
+                }
                 
+                fetchedOrders.markOrderAsCompleted(forOrderNo: order.orderNo, andSequenceNo: order.sequenceNo, andAddedProductIDs: addedProductIDs)
             } label: {
                 Text("Mark Delivered")
                     .font(.customFont(withWeight: .medium, withSize: 16))
@@ -379,25 +404,19 @@ struct TimerView: View {
             Text(orderTime)
                 .font(.customFont(withWeight: .medium, withSize: 16))
                 .foregroundColor(.white)
+                .frame(height: 40)
                 .multilineTextAlignment(.leading)
                 .padding([.leading], 10)
                 .onReceive(timer) { _ in
                     updatedTime = fetchedOrders.updateTimeForTables(forOrder: order)
                     orderTime = updatedTime["timeToDisplay"] as! String
-                    
-//                    if updatedTime["isExceededTime"] as! Bool == true {
-//                        bgColor.backgroundColor = Color.qikiRed
-//                    }
-//                    else {
-//                        bgColor.backgroundColor = Color.qikiGreen
-//                    }
                 }
             
             Spacer()
             
             if order.isUrgent == 0 {
                 Button {
-                    fetchedOrders.markOrderAsUrgent(forOrderNo: order.terminalOrderNo, andSequenceNo: order.sequenceNo)
+                    fetchedOrders.markOrderAsUrgent(forOrderNo: order.orderNo, andSequenceNo: order.sequenceNo)
                     fetchedOrders.orders.removeAll(where: {$0.terminalOrderNo == order.terminalOrderNo && $0.sequenceNo == order.sequenceNo})
                     fetchedOrders.orders.insert(order, at: 0)
                 } label: {
@@ -745,10 +764,10 @@ class GetActiveOrders: ObservableObject {
     }
     
         //MARK: To mark order as completed.
-    func markOrderAsCompleted(forOrderNo orderNo: Int, andSequenceNo seqNo: Int) {
+    func markOrderAsCompleted(forOrderNo orderNo: Int, andSequenceNo seqNo: Int, andAddedProductIDs addedProductIDs: [Int]) {
         invalidateTimer()
         
-        OrderServices.shared.markOrderAsCompleted(forOrderNumber: orderNo, andSequenceNo: seqNo) { result in
+        OrderServices.shared.markOrderAsCompleted(forOrderNumber: orderNo, andSequenceNo: seqNo, forAddedProductIDs: addedProductIDs) { result in
             switch result {
                 case .failure(let error):
                     print("Failed to mark order \(orderNo) as completed...")

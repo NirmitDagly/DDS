@@ -340,7 +340,6 @@ struct OrderTypeView: View {
                     .padding([.trailing], 10)
             }
             else if order.deliveryType.rawValue == DeliveryType.dineIn.rawValue {
-                
                 Text("Table #: \(fetchedOrders.generateTableNoToDisplay(forTableNo: order.tableNo!, andTabNumber: order.tabNumber, withTabName: order.tabName))")
                     .font(.customFont(withWeight: .medium, withSize: 16))
                     .foregroundColor(.white)
@@ -821,7 +820,7 @@ class GetActiveOrders: ObservableObject {
     
         //MARK: Generate TableNumber to display.
     func generateTableNoToDisplay(forTableNo tableNumber: String, andTabNumber tabNumber: Int?, withTabName tabName: String?) -> String {
-        var tableNo = ""
+        var tableNo = tableNumber
         if tabNumber != nil && tabNumber != 1 {
             tableNo = tableNumber + "-" + "\(tabNumber!)"
         }

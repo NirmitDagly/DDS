@@ -9,6 +9,7 @@ import Foundation
 
 struct OrderServices {
     static let shared = OrderServices()
+    var baseURL: String { UserDefaults.token?.qikiSite ?? "" }
     
     func getActiveOrders(orderStatus: String, completion: @escaping (Result<GetOrdersResponse, Error>) -> ()) {
         let apiRequest = ApiRequest(url: "\(baseURL)/get_kds_orders",
@@ -88,6 +89,7 @@ struct OrderServices {
             }
         }
     }
+    
     func markOrderAsUrgent(forOrderNumber orderNo: Int, andSequenceNo seqNo: Int, completion: @escaping (Result<GeneralResponse, Error>) -> ()) {
         let apiRequest = ApiRequest(url: "\(baseURL)/mark_kds_as_urgent",
                                     params: ["id_order": orderNo,

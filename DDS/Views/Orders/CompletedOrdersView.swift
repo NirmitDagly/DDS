@@ -20,7 +20,7 @@ struct CompletedOrdersView: View {
     
     @StateObject var fetchCompletedOrders = GetHistoryOrders()
     @StateObject var bgColor = UpdateBackgroundViewColor()
-
+    
     var body: some View {
         ZStack() {
             VStack(spacing: 0) {
@@ -37,6 +37,9 @@ struct CompletedOrdersView: View {
                 
                 Spacer()
             }
+            .alert(item: $fetchCompletedOrders.info, content: { info in
+                Alert(title: Text(info.title), message: Text(info.message))
+            })
             .onAppear {
                 fetchCompletedOrders.getCompletedOrders()
             }
@@ -279,7 +282,6 @@ struct HistoryProductListView: View {
     }
 }
 
-
 class GetHistoryOrders: ObservableObject {
     @Published var info: AlertInfo?
     
@@ -377,7 +379,7 @@ class GetHistoryOrders: ObservableObject {
                     Logs.writeLog(onDate: Helper.getCurrentDateAndTime(), andDescription: "\(error)")
                     
                     Helper.loadingSpinner(isLoading: false, isUserInteractionEnabled: true, withMessage: "")
-                    self.info = AlertInfo(id: .one, title: "Something Went Wrong (Error code: \(Helper.errorForAPI(APIErrorCode.getOrders_Active)))", message: error.localizedDescription)
+                    self.info = AlertInfo(id: .one, title: "Something Went Wrong (Error code: \(Helper.errorForAPI(APIErrorCode.getOrders_Active)))", message: "\(error)")
                     
                 case .success(let resp):
                     if resp.orders.count > 0 {

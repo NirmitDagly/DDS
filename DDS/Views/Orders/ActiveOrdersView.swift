@@ -22,12 +22,11 @@ struct ActiveOrdersView: View {
     
     @StateObject var fetchActiveOrders = GetActiveOrders()
     @StateObject var bgColor = UpdateBackgroundViewColor()
-    @StateObject var displayRundown = DisplayRunDownList()
     
     var body: some View {
         ZStack() {
             VStack(spacing: 0) {
-                CustomNavigationView(title: "Active Orders", displayRundown: displayRundown, shouldShowHistoryOrders: $shouldShowHistoryOrders, shouldShowSettings: $shouldShowSettings, shouldShowRundown: $shouldShowRundown)
+                CustomNavigationView(title: "Active Orders", displayRundown: fetchActiveOrders.displayRundown, shouldShowHistoryOrders: $shouldShowHistoryOrders, shouldShowSettings: $shouldShowSettings, shouldShowRundown: $shouldShowRundown, fetchActiveOrders: fetchActiveOrders)
                 
                 Spacer()
                 
@@ -35,13 +34,8 @@ struct ActiveOrdersView: View {
                     NoSectionAlert()
                 }
                 else {
-                    if displayRundown.shouldDisplayRundown == true {
-                        HStack {
-                            ProductSummaryView(fetchedOrders: fetchActiveOrders)
-                                .frame(width: 300)
-                            
-                            OrdersView(fetchedOrders: fetchActiveOrders, bgColor: bgColor, shouldShowRunDown: $shouldShowRundown)
-                        }
+                    if shouldShowRundown == true {
+                        DisplayOrdersWithProductSummary(fetchActiveOrders: fetchActiveOrders, bgColor: bgColor, shouldShowRunDown: $shouldShowRundown)
                     }
                     else {
                         OrdersView(fetchedOrders: fetchActiveOrders, bgColor: bgColor, shouldShowRunDown: $shouldShowRundown)
@@ -52,31 +46,21 @@ struct ActiveOrdersView: View {
             }
             .onAppear {
                 if selectedSections.count == 0 {
-                    shouldShowRundown = false
                     shouldShowAlert = true
                 }
                 else {
-                    shouldShowRundown = true
                     shouldShowAlert = false
-                    
                     fetchActiveOrders.getActiveOrders()
-                    shouldDisplayRunDownOption()
                 }
             }
+            .alert(item: $fetchActiveOrders.info, content: { info in
+                Alert(title: Text(info.title), message: Text(info.message))
+            })
         }
         .navigationTitle("")
         .navigationBarHidden(true)
         .edgesIgnoringSafeArea(.all)
         .stackNavigationView()
-    }
-    
-    func shouldDisplayRunDownOption() {
-        if fetchActiveOrders.orders.count > 0 {
-            displayRundown.shouldDisplayRundown = true
-        }
-        else {
-            displayRundown.shouldDisplayRundown = false
-        }
     }
 }
 
@@ -87,57 +71,66 @@ struct CustomNavigationView: View {
     @Binding var shouldShowSettings: Bool
     @Binding var shouldShowRundown: Bool
     
+    @ObservedObject var fetchActiveOrders: GetActiveOrders
+    
     var body: some View {
-        HStack() {
-            if displayRundown.shouldDisplayRundown == true {
-                Button {
-                    displayRundown.shouldDisplayRundown.toggle()
-                } label: {
-                    Image(systemName: "doc.text.fill")
-                        .resizable()
-                        .aspectRatio(contentMode: .fit)
-                        .frame(width: 25, height: 25)
-                        .foregroundColor(Color.white)
-                        .padding([.leading], 20)
-                }
-            }
-            
-            Spacer()
-            
-            GeometryReader { geometryReader in
-                Text(title)
-                    .foregroundColor(.white)
-                    .font(.customFont(withWeight: .demibold, withSize: 24))
-                    .frame(width: geometryReader.size.width, alignment: .center)
-                    .padding(.top, 15)
-                    .padding(.leading, 80)
-            }
-            
-            Spacer()
-            
-            HStack {
-                NavigationLink(destination: CompletedOrdersView(shouldShowAlert: docketSections.count > 0 ? false : true), isActive: $shouldShowHistoryOrders) {
+        ZStack {
+            HStack() {
+                if displayRundown.shouldDisplayRundown == true {
                     Button {
-                        shouldShowHistoryOrders = true
+                        if shouldShowRundown == false {
+                            shouldShowRundown = true
+                        }
+                        else {
+                            shouldShowRundown = false
+                        }
                     } label: {
-                        Text("Completed Orders")
-                            .foregroundColor(.white)
-                            .font(.customFont(withWeight: .medium, withSize: 20))
-                            .frame(alignment: .center)
-                            .padding(.trailing, 10)
-                    }
-                }
-                
-                NavigationLink(destination: Settings(), isActive: $shouldShowSettings) {
-                    Button {
-                        shouldShowSettings = true
-                    } label: {
-                        Image(systemName: "gearshape.fill")
+                        Image(systemName: "doc.text.fill")
                             .resizable()
                             .aspectRatio(contentMode: .fit)
                             .frame(width: 25, height: 25)
                             .foregroundColor(Color.white)
-                            .padding([.trailing], 20)
+                            .padding([.leading], 20)
+                    }
+                }
+                
+                Spacer()
+                
+                GeometryReader { geometryReader in
+                    Text(title)
+                        .foregroundColor(.white)
+                        .font(.customFont(withWeight: .demibold, withSize: 24))
+                        .frame(width: geometryReader.size.width, alignment: .center)
+                        .padding(.top, 15)
+                        .padding(.leading, 100)
+                }
+                
+                Spacer()
+                
+                HStack {
+                    NavigationLink(destination: CompletedOrdersView(shouldShowAlert: docketSections.count > 0 ? false : true), isActive: $shouldShowHistoryOrders) {
+                        Button {
+                            shouldShowHistoryOrders = true
+                        } label: {
+                            Text("Completed Orders")
+                                .foregroundColor(.white)
+                                .font(.customFont(withWeight: .medium, withSize: 20))
+                                .frame(alignment: .center)
+                                .padding(.trailing, 10)
+                        }
+                    }
+                    
+                    NavigationLink(destination: Settings(), isActive: $shouldShowSettings) {
+                        Button {
+                            shouldShowSettings = true
+                        } label: {
+                            Image(systemName: "gearshape.fill")
+                                .resizable()
+                                .aspectRatio(contentMode: .fit)
+                                .frame(width: 25, height: 25)
+                                .foregroundColor(Color.white)
+                                .padding([.trailing], 20)
+                        }
                     }
                 }
             }
@@ -155,6 +148,23 @@ struct NoSectionAlert: View {
             .foregroundColor(.qikiRed)
             .font(.customFont(withWeight: .medium, withSize: 22))
             .multilineTextAlignment(.center)
+    }
+}
+
+struct DisplayOrdersWithProductSummary: View {
+    @ObservedObject var fetchActiveOrders: GetActiveOrders
+    @ObservedObject var bgColor: UpdateBackgroundViewColor
+    @Binding var shouldShowRunDown: Bool
+
+    var body: some View {
+        HStack {
+            if fetchActiveOrders.orders.count > 0 {
+                ProductSummaryView(fetchedOrders: fetchActiveOrders)
+                    .frame(width: 300)
+                
+                OrdersView(fetchedOrders: fetchActiveOrders, bgColor: bgColor, shouldShowRunDown: $shouldShowRunDown)
+            }
+        }
     }
 }
 
@@ -253,7 +263,7 @@ struct ActiveOrderDisplayView: View {
         let updatedTime = fetchedOrders.updateTimeForTables(forOrder: order)
         
         if updatedTime["isExceededTime"] as! Bool == true {
-            backgroundColor = Color.qikiRed
+            backgroundColor = Color.red
         }
         else {
             backgroundColor = Color.qikiGreen
@@ -441,14 +451,13 @@ struct TimerView: View {
 }
 
 class GetActiveOrders: ObservableObject {
-    @Published var info: AlertInfo?
-    
     @Published var orders = [Order]()
     var tableOnTimer: Timer?
     @ObservedObject var productSummary = ProductSummary()
-    @Published var displayProducts = [Product]()
+    @ObservedObject var displayRundown = DisplayRunDownList()
+    @Published var info: AlertInfo?
     
-        //MARK: This function will create a product string with dietary requirements to be displayed on screen.
+    //MARK: This function will create a product string with dietary requirements to be displayed on screen.
     func productsAndDetails(product: Product) -> NSMutableAttributedString {
         let orderDetails = NSMutableAttributedString.init()
         
@@ -503,7 +512,7 @@ class GetActiveOrders: ObservableObject {
         return orderDetails
     }
     
-        //MARK: Combine Product to display on the card
+    //MARK: Combine Product to display on the card
     func combineProductForOrderDisplay() {
         for i in 0 ..< orders.count {
             var combinedProductsToDisplay = [Product]()
@@ -529,7 +538,7 @@ class GetActiveOrders: ObservableObject {
         }
     }
     
-        //MARK: Combine Products to display the product summary
+    //MARK: Combine Products to display the product summary
     func combineProductsForSummaryDisplay() -> ProductSummary {
         productSummary = ProductSummary()
         
@@ -573,7 +582,7 @@ class GetActiveOrders: ObservableObject {
         return productSummary
     }
     
-        //MARK: Format products summary to display on the screen
+    //MARK: Format products summary to display on the screen
     func formattedProductSummary(forProductSummary productSummary: DisplayProductSummary) -> FinalSummary {
         var formattedSummary = FinalSummary(productName: "", hasDietary: false)
         
@@ -591,7 +600,7 @@ class GetActiveOrders: ObservableObject {
         return formattedSummary
     }
     
-        //MARK: Following functions will be used to schedule timer to display table active time and destory them.
+    //MARK: Following functions will be used to schedule timer to display table active time and destory them.
     func invalidateTimer() {
         activeOrdersTimer?.invalidate()
         activeOrdersTimer = nil
@@ -600,7 +609,7 @@ class GetActiveOrders: ObservableObject {
         tableOnTimer = nil
     }
     
-        //MARK: Following functions will be used to schedule timer to display table active time and destory them.
+    //MARK: Following functions will be used to schedule timer to display table active time and destory them.
     func scheduleTimerToUpdateCollectionView() {
         if tableOnTimer == nil {
             tableOnTimer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(updateOrderView), userInfo: nil, repeats: true)
@@ -611,7 +620,7 @@ class GetActiveOrders: ObservableObject {
         
     }
     
-        //MARK: Update Timer for only visible cells on the layout
+    //MARK: Update Timer for only visible cells on the layout
     func updateTimeForTables(forOrder order: Order) -> [String: Any] {
         var timeDetail = [String: Any]()
         if order.dateAdded != "" {
@@ -684,14 +693,14 @@ class GetActiveOrders: ObservableObject {
         return timeDetail
     }
     
-        //MARK: Schedule timer to call the active order in background
+    //MARK: Schedule timer to call the active order in background
     func scheduleTimerToGetActiveOrders() {
         if activeOrdersTimer == nil {
             activeOrdersTimer = Timer.scheduledTimer(timeInterval: 10, target: self, selector: #selector(getActiveOrders), userInfo: nil, repeats: true)
         }
     }
     
-        //MARK: This function will fecth the completed orders of the current date.
+    //MARK: This function will fecth the completed orders of the current date.
     @objc func getActiveOrders() {
         invalidateTimer()
         print("Fetching active orders...")
@@ -703,7 +712,7 @@ class GetActiveOrders: ObservableObject {
                     Logs.writeLog(onDate: Helper.getCurrentDateAndTime(), andDescription: "\(error)")
                     
                     Helper.loadingSpinner(isLoading: false, isUserInteractionEnabled: true, withMessage: "")
-                    self.info = AlertInfo(id: .one, title: "Something Went Wrong (Error code: \(Helper.errorForAPI(APIErrorCode.getOrders_Active)))", message: error.localizedDescription)
+                    self.info = AlertInfo(id: .one, title: "Something Went Wrong (Error code: \(Helper.errorForAPI(APIErrorCode.getOrders_Active)))", message: "\(error)")
                     
                     self.scheduleTimerToGetActiveOrders()
                 case .success(let resp):
@@ -729,12 +738,13 @@ class GetActiveOrders: ObservableObject {
                         self.productSummary = self.combineProductsForSummaryDisplay()
                     }
                     
+                    self.shouldDisplayRunDownOption()
                     self.scheduleTimerToGetActiveOrders()
             }
         }
     }
     
-        //MARK: Filter Orders based on selected sections to display
+    //MARK: Filter Orders based on selected sections to display
     func filterOrdersToDisplay() {
         for i in 0 ..< self.orders.count {
             var productsOfOrder = self.orders[i].products
@@ -762,7 +772,7 @@ class GetActiveOrders: ObservableObject {
         orders.removeAll(where: {$0.products.count == 0})
     }
     
-        //MARK: To mark order as completed.
+    //MARK: To mark order as completed.
     func markOrderAsCompleted(forOrderNo orderNo: Int, andSequenceNo seqNo: Int, andAddedProductIDs addedProductIDs: [Int]) {
         invalidateTimer()
         
@@ -786,7 +796,7 @@ class GetActiveOrders: ObservableObject {
         }
     }
     
-        //MARK: To mark order as urgent.
+    //MARK: To mark order as urgent.
     func markOrderAsUrgent(forOrderNo orderNo: Int, andSequenceNo seqNo: Int) {
         OrderServices.shared.markOrderAsUrgent(forOrderNumber: orderNo, andSequenceNo: seqNo) { result in
             switch result {
@@ -802,7 +812,7 @@ class GetActiveOrders: ObservableObject {
         }
     }
     
-        //MARK: To mark individual item as delivered.
+    //MARK: To mark individual item as delivered.
     func markIndividualItemAsDelivered(forOrderNo orderNo: Int, andSequenceNo seqNo: Int, andAddedProductID addedProductID: Int, andIsDelivered isDelivered: Int) {
         OrderServices.shared.markItemAsDelivered(forOrderNumber: orderNo, andSequenceNo: seqNo, forAddedProductID: addedProductID, andIsDelivered: isDelivered) { result in
             switch result {
@@ -818,7 +828,7 @@ class GetActiveOrders: ObservableObject {
         }
     }
     
-        //MARK: Generate TableNumber to display.
+    //MARK: Generate TableNumber to display.
     func generateTableNoToDisplay(forTableNo tableNumber: String, andTabNumber tabNumber: Int?, withTabName tabName: String?) -> String {
         var tableNo = tableNumber
         if tabNumber != nil && tabNumber != 1 {
@@ -830,6 +840,16 @@ class GetActiveOrders: ObservableObject {
         }
         
         return tableNo
+    }
+    
+    //MARK: Notify to display the product summary view or not based on the orders count
+    func shouldDisplayRunDownOption() {
+        if orders.count > 0 {
+            displayRundown.shouldDisplayRundown = true
+        }
+        else {
+            displayRundown.shouldDisplayRundown = false
+        }
     }
 }
 
@@ -850,7 +870,7 @@ struct DisplayProductSummary: Hashable {
     var qty: Int
     var dietary: String
     
-        // Hashing
+    // Hashing
     func hash(into hasher: inout Hasher) {
         hasher.combine(qty)
     }
@@ -860,7 +880,7 @@ struct FinalSummary: Hashable {
     var productName: String
     var hasDietary: Bool
     
-        // Hashing
+    // Hashing
     func hash(into hasher: inout Hasher) {
         hasher.combine(productName)
     }

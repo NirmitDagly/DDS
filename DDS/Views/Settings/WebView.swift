@@ -69,9 +69,13 @@ struct CustomNavigationViewForWebView: View {
             
             Spacer()
             
-            Text(title)
-                .foregroundColor(.white)
-                .font(.customFont(withWeight: .demibold, withSize: 24))
+            GeometryReader { geometryReader in
+                Text(title)
+                    .foregroundColor(.white)
+                    .font(.customFont(withWeight: .demibold, withSize: 24))
+                    .frame(width: geometryReader.size.width, alignment: .center)
+                    .padding(.top, 15)
+            }
             
             Spacer()
         }

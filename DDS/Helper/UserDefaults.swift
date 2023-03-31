@@ -234,10 +234,7 @@ extension UserDefaults {
         UserDefaults.standard.removeObject(forKey: Keys.isTimerRunning)
         UserDefaults.standard.removeObject(forKey: Keys.storeDetails)
         UserDefaults.standard.removeObject(forKey: Keys.deviceID)
-
-        if UserDefaults.rememberLoginDetails == false {
-            UserDefaults.standard.removeObject(forKey: Keys.token)
-        }
+        UserDefaults.standard.removeObject(forKey: Keys.token)
         UserDefaults.standard.synchronize()
     }
 }

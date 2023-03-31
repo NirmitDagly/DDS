@@ -23,8 +23,6 @@ let deviceModel = UIDevice.current.model
 
 let deviceSystemVersion = UIDevice.current.systemVersion
 
-var baseURL = UserDefaults.token?.qikiSite ?? ""
-
 let alertTitle: String = "Qiki - Docket Display System"
 
 let alertErrorMessage: String = "An error occured, please try again."

@@ -1,9 +1,9 @@
-//
-//  Login.swift
-//  DDS
-//
-//  Created by Nirmit Dagly on 30/12/2022.
-//
+    //
+    //  Login.swift
+    //  DDS
+    //
+    //  Created by Nirmit Dagly on 30/12/2022.
+    //
 
 import SwiftUI
 
@@ -19,29 +19,25 @@ struct Login: View {
     @State var shouldShowPassword = false
     @State var shouldRememberPassword = UserDefaults.rememberLoginDetails
     
-    @State var isShowingWebsite = false
-
     @EnvironmentObject var views: Views
     
     var body: some View {
         ZStack {
             NavigationView() {
-                NavigationLink(destination: ActiveOrdersView(), isActive: $views.stacked) {
-                    BaseView(userName: $userName, password: $password, shouldShowPassword: $shouldShowPassword, shouldRememberPassword: $shouldRememberPassword, isShowingWebsite: $isShowingWebsite, views: views)
-                        .onAppear(perform: {
-                                //                            userName = UserDefaults.userName ?? ""
-                                //                            password = UserDefaults.password ?? ""
-                            shouldRememberPassword = UserDefaults.rememberLoginDetails
+                BaseView(userName: $userName, password: $password, shouldShowPassword: $shouldShowPassword, shouldRememberPassword: $shouldRememberPassword, views: views)
+                    .onAppear(perform: {
+                            //                            userName = UserDefaults.userName ?? ""
+                            //                            password = UserDefaults.password ?? ""
+                        shouldRememberPassword = UserDefaults.rememberLoginDetails
+                        
+                        if userName != "" && password != "" {
+                            fillAutoDetailsAndPerformLogin(userName: $userName, password: $password)
                             
-                            if userName != "" && password != "" {
-                                fillAutoDetailsAndPerformLogin(userName: $userName, password: $password)
-                                
-                                if UserDefaults.isLoggedIn == true {
-                                    btnLogin(userName: $userName, password: $password, views: views).performLogin()
-                                }
+                            if UserDefaults.isLoggedIn == true {
+                                btnLogin(userName: $userName, password: $password, views: views).performLogin()
                             }
-                        })
-                }
+                        }
+                    })
             }
             .navigationTitle("")
             .navigationBarHidden(true)
@@ -63,9 +59,8 @@ struct BaseView: View {
     @Binding var password: String
     @Binding var shouldShowPassword: Bool
     @Binding var shouldRememberPassword: Bool
-    @Binding var isShowingWebsite: Bool
     @ObservedObject var views: Views
-
+    
     var body: some View {
         VStack() {
             Spacer()
@@ -79,7 +74,6 @@ struct BaseView: View {
             PasswordField(password: $password, shouldShowPassword: $shouldShowPassword)
             RememberLoginDetails(userName: $userName, password: $password, shouldRememberPassword: $shouldRememberPassword)
             LoginButton(userName: $userName, password: $password, views: views)
-            SignUpView(isShowingWebsite: $isShowingWebsite)
             Spacer()
         }
         .edgesIgnoringSafeArea(.all)
@@ -209,19 +203,20 @@ struct RememberLoginDetails: View {
 struct LoginButton: View {
     @Binding var userName: String
     @Binding var password: String
-
-    @State var info: AlertInfo?
+    
     @ObservedObject var views: Views
     
     var body: some View {
-        btnLogin(userName: $userName, password: $password, views: views)
+        NavigationLink(destination: ActiveOrdersView(), isActive: $views.stacked) {
+            btnLogin(userName: $userName, password: $password, views: views)
+        }
     }
 }
 
 struct btnLogin: View {
     @Binding var userName: String
     @Binding var password: String
-
+    
     @State var info: AlertInfo?
     @ObservedObject var views: Views
     
@@ -436,9 +431,9 @@ struct btnLogin: View {
                         Helper.loadingSpinner(isLoading: false, isUserInteractionEnabled: true, withMessage: "")
                         self.info = AlertInfo(id: .one, title: "Something Went Wrong (Error code: \(Helper.errorForAPI(APIErrorCode.getDocketSection)))", message: error.localizedDescription)
                     case .success(let resp):
-                        //docketSectionOptions = resp.dockets
+                            //docketSectionOptions = resp.dockets
                         docketSections = resp.dockets //resp.dockets.compactMap({$0.docket})
-
+                        
                         Helper.loadingSpinner(isLoading: false, isUserInteractionEnabled: true, withMessage: "")
                         
                         if UserDefaults.selectedDocketSections != nil && UserDefaults.selectedDocketSections!.count > 0 {
@@ -463,25 +458,6 @@ struct btnLogin: View {
             Helper.loadingSpinner(isLoading: false, isUserInteractionEnabled: true, withMessage: "")
             Logs.writeLog(onDate: Helper.getCurrentDateAndTime(), andDescription: "Device is not connected to internet.")
             info = AlertInfo(id: .one, title: "Device Offline", message: "Please reconnect to the internet and try again.")
-        }
-    }
-}
-
-struct SignUpView: View {
-    @Binding var isShowingWebsite: Bool
-    
-    var body: some View {
-        NavigationLink(destination: WebView(title: "Sign Up", linkToDisplay: LinkToOpen.signUp), isActive: $isShowingWebsite) {
-            Button {
-                isShowingWebsite = true
-            } label: {
-                Text("Need Point Of Sale? Get in touch with us.")
-                    .foregroundColor(.qikiColor)
-                    .underline(true, color: .qikiColor)
-                    .font(.customFont(withWeight: .demibold, withSize: 18))
-                    .frame(height: 50, alignment: .center)
-                    .lineLimit(2)
-            }
         }
     }
 }

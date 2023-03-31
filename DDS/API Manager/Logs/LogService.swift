@@ -9,6 +9,7 @@ import Foundation
 
 struct LogService {
     static let shared = LogService()
+    var baseURL: String { UserDefaults.token?.qikiSite ?? "" }
     
     //MARK: The following function will be called to upload the log file on server.
     func sendLogFile(completion: @escaping (Result<GeneralResponse, Error>) -> ()) {

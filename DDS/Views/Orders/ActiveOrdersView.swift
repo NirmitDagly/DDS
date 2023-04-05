@@ -292,7 +292,7 @@ struct ProductListView: View {
                                         fetchedOrders.orders[i].products[j].isDelivered = 0
                                     }
                                     
-                                    fetchedOrders.markIndividualItemAsDelivered(forOrderNo: order.orderNo, andSequenceNo: order.sequenceNo, andAddedProductID: fetchedOrders.orders[i].products[j].addedProductID!, andIsDelivered: fetchedOrders.orders[i].products[j].isDelivered ?? 0)
+                                    fetchedOrders.markIndividualItemAsDelivered(forOrderNo: order.orderNo, andSequenceNo: order.sequenceNo, andAddedProductID: fetchedOrders.orders[i].products[j].addedProductID!, andSection: fetchedOrders.orders[i].products[j].docketType[0], andIsDelivered: fetchedOrders.orders[i].products[j].isDelivered ?? 0)
                                     break
                                 }
                             }
@@ -737,7 +737,9 @@ class GetActiveOrders: ObservableObject {
                         }
                         self.productSummary = self.combineProductsForSummaryDisplay()
                     }
-                    
+                    else {
+                        self.orders = [Order]()
+                    }
                     self.shouldDisplayRunDownOption()
                     self.scheduleTimerToGetActiveOrders()
             }
@@ -813,8 +815,8 @@ class GetActiveOrders: ObservableObject {
     }
     
     //MARK: To mark individual item as delivered.
-    func markIndividualItemAsDelivered(forOrderNo orderNo: Int, andSequenceNo seqNo: Int, andAddedProductID addedProductID: Int, andIsDelivered isDelivered: Int) {
-        OrderServices.shared.markItemAsDelivered(forOrderNumber: orderNo, andSequenceNo: seqNo, forAddedProductID: addedProductID, andIsDelivered: isDelivered) { result in
+    func markIndividualItemAsDelivered(forOrderNo orderNo: Int, andSequenceNo seqNo: Int, andAddedProductID addedProductID: Int, andSection section: String, andIsDelivered isDelivered: Int) {
+        OrderServices.shared.markItemAsDelivered(forOrderNumber: orderNo, andSequenceNo: seqNo, forAddedProductID: addedProductID, andHasSection: section, andIsDelivered: isDelivered) { result in
             switch result {
                 case .failure(let error):
                     print("Failed to mark item id: \(addedProductID) for Order: \(orderNo) as delivered...")

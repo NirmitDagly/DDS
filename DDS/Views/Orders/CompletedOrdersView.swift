@@ -402,6 +402,9 @@ class GetHistoryOrders: ObservableObject {
                             self.filterOrdersToDisplay()
                         }
                     }
+                    else {
+                        self.orders = [Order]()
+                    }
             }
         }
     }

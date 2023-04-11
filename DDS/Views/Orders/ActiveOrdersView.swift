@@ -729,12 +729,7 @@ class GetActiveOrders: ObservableObject {
                             }
                         }
                         
-                        if UserDefaults.selectedDocketSections != nil && UserDefaults.selectedDocketSections!.contains("Terminal") {
-                                //Don't remove any products from order, as the Section is selected as 'Terminal'. Hence, all items will be displayed here...
-                        }
-                        else {
-                            self.filterOrdersToDisplay()
-                        }
+                        self.filterOrdersToDisplay()
                         self.productSummary = self.combineProductsForSummaryDisplay()
                     }
                     else {

@@ -11,7 +11,7 @@ import Foundation
 class GetDocketResponse: ApiResponse {    
     var success: Int
     var message: String
-    var dockets: [String]
+    var dockets: [DocketOptions]
     
     enum CodingKeys: String, CodingKey {
         case success, message

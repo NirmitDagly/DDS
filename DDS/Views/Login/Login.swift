@@ -432,7 +432,7 @@ struct btnLogin: View {
                         self.info = AlertInfo(id: .one, title: "Something Went Wrong (Error code: \(Helper.errorForAPI(APIErrorCode.getDocketSection)))", message: error.localizedDescription)
                     case .success(let resp):
                             //docketSectionOptions = resp.dockets
-                        docketSections = resp.dockets //resp.dockets.compactMap({$0.docket})
+                        docketSectionOptions = resp.dockets //resp.dockets.compactMap({$0.docket})
                         
                         Helper.loadingSpinner(isLoading: false, isUserInteractionEnabled: true, withMessage: "")
                         

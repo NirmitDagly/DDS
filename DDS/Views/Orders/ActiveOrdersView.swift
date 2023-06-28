@@ -317,11 +317,23 @@ struct ProductListView: View {
                     }
                 }
                 
-                Text.init(fetchedOrders.productsAndDetails(product: product).string)
-                    .font(.customFont(withWeight: .medium, withSize: 16))
-                    .frame(alignment: .leading)
-                    .padding([.leading, .trailing], 10)
-                    .padding(.top, 2.5)
+                let productDetails = fetchedOrders.productsAndDetails(product: product).string
+
+                if product.isDeleted == 1 {
+                    Text.init(productDetails)
+                        .font(.customFont(withWeight: .medium, withSize: 16))
+                        .frame(alignment: .leading)
+                        .padding([.leading, .trailing], 10)
+                        .padding(.top, 2.5)
+                        .strikethrough(true, pattern: .solid, color: .gray)
+                }
+                else {
+                    Text.init(productDetails)
+                        .font(.customFont(withWeight: .medium, withSize: 16))
+                        .frame(alignment: .leading)
+                        .padding([.leading, .trailing], 10)
+                        .padding(.top, 2.5)
+                }
                 
                 Spacer()
             }

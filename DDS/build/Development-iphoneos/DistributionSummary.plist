@@ -14,9 +14,9 @@
 			<key>certificate</key>
 			<dict>
 				<key>SHA1</key>
-				<string>1413C41C24A4F91A3A7DF471F3BCD3CF7AFFF175</string>
+				<string>DEEAC9CDF9E3BA835CD8AC9212477B0FF209BD7E</string>
 				<key>dateExpires</key>
-				<string>2/4/2024</string>
+				<string>27/6/2024</string>
 				<key>type</key>
 				<string>Apple Development</string>
 			</dict>
@@ -32,9 +32,9 @@
 					<key>certificate</key>
 					<dict>
 						<key>SHA1</key>
-						<string>1413C41C24A4F91A3A7DF471F3BCD3CF7AFFF175</string>
+						<string>DEEAC9CDF9E3BA835CD8AC9212477B0FF209BD7E</string>
 						<key>dateExpires</key>
-						<string>2/4/2024</string>
+						<string>27/6/2024</string>
 						<key>type</key>
 						<string>Apple Development</string>
 					</dict>
@@ -60,9 +60,9 @@
 					<key>certificate</key>
 					<dict>
 						<key>SHA1</key>
-						<string>1413C41C24A4F91A3A7DF471F3BCD3CF7AFFF175</string>
+						<string>DEEAC9CDF9E3BA835CD8AC9212477B0FF209BD7E</string>
 						<key>dateExpires</key>
-						<string>2/4/2024</string>
+						<string>27/6/2024</string>
 						<key>type</key>
 						<string>Apple Development</string>
 					</dict>
@@ -88,9 +88,9 @@
 					<key>certificate</key>
 					<dict>
 						<key>SHA1</key>
-						<string>1413C41C24A4F91A3A7DF471F3BCD3CF7AFFF175</string>
+						<string>DEEAC9CDF9E3BA835CD8AC9212477B0FF209BD7E</string>
 						<key>dateExpires</key>
-						<string>2/4/2024</string>
+						<string>27/6/2024</string>
 						<key>type</key>
 						<string>Apple Development</string>
 					</dict>
@@ -116,9 +116,9 @@
 					<key>certificate</key>
 					<dict>
 						<key>SHA1</key>
-						<string>1413C41C24A4F91A3A7DF471F3BCD3CF7AFFF175</string>
+						<string>DEEAC9CDF9E3BA835CD8AC9212477B0FF209BD7E</string>
 						<key>dateExpires</key>
-						<string>2/4/2024</string>
+						<string>27/6/2024</string>
 						<key>type</key>
 						<string>Apple Development</string>
 					</dict>
@@ -144,9 +144,9 @@
 					<key>certificate</key>
 					<dict>
 						<key>SHA1</key>
-						<string>1413C41C24A4F91A3A7DF471F3BCD3CF7AFFF175</string>
+						<string>DEEAC9CDF9E3BA835CD8AC9212477B0FF209BD7E</string>
 						<key>dateExpires</key>
-						<string>2/4/2024</string>
+						<string>27/6/2024</string>
 						<key>type</key>
 						<string>Apple Development</string>
 					</dict>
@@ -172,9 +172,9 @@
 					<key>certificate</key>
 					<dict>
 						<key>SHA1</key>
-						<string>1413C41C24A4F91A3A7DF471F3BCD3CF7AFFF175</string>
+						<string>DEEAC9CDF9E3BA835CD8AC9212477B0FF209BD7E</string>
 						<key>dateExpires</key>
-						<string>2/4/2024</string>
+						<string>27/6/2024</string>
 						<key>type</key>
 						<string>Apple Development</string>
 					</dict>
@@ -200,9 +200,9 @@
 					<key>certificate</key>
 					<dict>
 						<key>SHA1</key>
-						<string>1413C41C24A4F91A3A7DF471F3BCD3CF7AFFF175</string>
+						<string>DEEAC9CDF9E3BA835CD8AC9212477B0FF209BD7E</string>
 						<key>dateExpires</key>
-						<string>2/4/2024</string>
+						<string>27/6/2024</string>
 						<key>type</key>
 						<string>Apple Development</string>
 					</dict>
@@ -237,9 +237,9 @@
 			<key>profile</key>
 			<dict>
 				<key>UUID</key>
-				<string>ad40a607-2bcb-4c2a-99fc-3a78ee27b8ef</string>
+				<string>6add57b6-4094-442a-8314-9886479c4525</string>
 				<key>dateExpires</key>
-				<string>26/6/2024</string>
+				<string>27/6/2024</string>
 				<key>name</key>
 				<string>DDS</string>
 			</dict>

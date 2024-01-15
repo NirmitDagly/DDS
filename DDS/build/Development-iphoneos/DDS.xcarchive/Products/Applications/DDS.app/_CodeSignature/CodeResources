@@ -22,7 +22,7 @@
 		</data>
 		<key>Frameworks/Alamofire.framework/Alamofire</key>
 		<data>
-		NNiF/zy9Oyenah1VYBZx5cApI60=
+		Z50CgmTfouju6ITdL/OPKRMSRtE=
 		</data>
 		<key>Frameworks/Alamofire.framework/Info.plist</key>
 		<data>
@@ -34,7 +34,7 @@
 		</data>
 		<key>Frameworks/AlignedCollectionViewFlowLayout.framework/AlignedCollectionViewFlowLayout</key>
 		<data>
-		/TJoWGRNwNqp/cA0Bsa3C5HI+qw=
+		yYkjlXn50y9Og86LomVc9Jvo/e4=
 		</data>
 		<key>Frameworks/AlignedCollectionViewFlowLayout.framework/Info.plist</key>
 		<data>
@@ -46,7 +46,7 @@
 		</data>
 		<key>Frameworks/FillableLoaders.framework/FillableLoaders</key>
 		<data>
-		/YVkZU0zrnour3kVSrjk1kIDE7M=
+		asscbNmDh1sgP3iTVq0nogk2Qeo=
 		</data>
 		<key>Frameworks/FillableLoaders.framework/Info.plist</key>
 		<data>
@@ -90,7 +90,7 @@
 		</data>
 		<key>Frameworks/IQKeyboardManagerSwift.framework/IQKeyboardManagerSwift</key>
 		<data>
-		Pg7SEkN5Ubgk2wC/EnKixCkfvm4=
+		MJYAJlXKLC+wb2VbqiM73/0nTs8=
 		</data>
 		<key>Frameworks/IQKeyboardManagerSwift.framework/Info.plist</key>
 		<data>
@@ -106,7 +106,7 @@
 		</data>
 		<key>Frameworks/NDT7.framework/NDT7</key>
 		<data>
-		aKaTTF4uayuVUHJE7EW5qmwFqlc=
+		HvrrSuNq4SvAJZJ9FqVVbZIAe0o=
 		</data>
 		<key>Frameworks/NDT7.framework/_CodeSignature/CodeResources</key>
 		<data>
@@ -118,7 +118,7 @@
 		</data>
 		<key>Frameworks/NVActivityIndicatorView.framework/NVActivityIndicatorView</key>
 		<data>
-		Yw4bQYKpNvKtjMQfxa6KqR15EEI=
+		SnD5BYgSUh1s0LdhEuNyyO1HzZA=
 		</data>
 		<key>Frameworks/NVActivityIndicatorView.framework/_CodeSignature/CodeResources</key>
 		<data>
@@ -130,7 +130,7 @@
 		</data>
 		<key>Frameworks/SDWebImage.framework/SDWebImage</key>
 		<data>
-		DdBhw72sh8i7Dt+sLfHFO9PniWg=
+		9k4st9+fTtzkRVniPrjjchqeWKY=
 		</data>
 		<key>Frameworks/SDWebImage.framework/_CodeSignature/CodeResources</key>
 		<data>
@@ -158,7 +158,7 @@
 		</data>
 		<key>embedded.mobileprovision</key>
 		<data>
-		Sr7rdjtX8haDi1D0UrqUSQIMPLo=
+		+a5xmWX/HpLpwsTK93UhPKQBZAU=
 		</data>
 	</dict>
 	<key>files2</key>
@@ -195,7 +195,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			1pxuhr8G6B5ow9dsnn/KJfIY+bcpEQXVFg1tvp98YMQ=
+			Y5MbI2xNgswZBgyQsPHMcwXCn8fiVjGWoqUl11WxSgc=
 			</data>
 		</dict>
 		<key>Frameworks/Alamofire.framework/Info.plist</key>
@@ -216,7 +216,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			3DphyeLR33wVcG6tGTbDM007XnCAV4t6sTbmY1wpp+c=
+			JzMBHvbJumTupRpzB9eUjRmZvEXFKrkaVE4qT8EIaak=
 			</data>
 		</dict>
 		<key>Frameworks/AlignedCollectionViewFlowLayout.framework/Info.plist</key>
@@ -237,7 +237,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			9PwMaRQKcNBwIkjmJdZwgC3NEtwKdLjqJ8GLU5p5Al4=
+			TLkBoAE4MGrWOo0O4BeaVoy8gWMnSiT4A6dJ5hdBhxQ=
 			</data>
 		</dict>
 		<key>Frameworks/FillableLoaders.framework/Info.plist</key>
@@ -314,7 +314,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			G/vBsjV35y30vMaYlarjSoBHs+uzRDghqbsa9OfnvoE=
+			Xuz5PecesCEjZoA9VYKxqp49OAEKEDFhZZZVbJ0wyQk=
 			</data>
 		</dict>
 		<key>Frameworks/IQKeyboardManagerSwift.framework/Info.plist</key>
@@ -342,7 +342,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			1jZKrbrLIRikhsJoblfJRAxZVX/ooYwYetxb0uhh6l4=
+			EvcGGCezBrUFZzAyrcXXwahYzdq/gaVYOps/fHd8LAU=
 			</data>
 		</dict>
 		<key>Frameworks/NDT7.framework/_CodeSignature/CodeResources</key>
@@ -363,7 +363,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			IdE8WSdGC31R3LjScHCBcBymoqpXPHZNtJB1hPigZkw=
+			oWS2DVwvpNP4lzjaEbYJukI4aHA1T+Gy5p7fq1q8nfw=
 			</data>
 		</dict>
 		<key>Frameworks/NVActivityIndicatorView.framework/_CodeSignature/CodeResources</key>
@@ -384,7 +384,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			9r/I2Zlw8xwvKYOOcprGJTChZFrhfGe1LuCTLQ9B7oY=
+			99jDdlXjeTKXxntc3Izm/ZNoPt1B0wzlf8JqP9PBPjk=
 			</data>
 		</dict>
 		<key>Frameworks/SDWebImage.framework/_CodeSignature/CodeResources</key>
@@ -419,7 +419,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			oX3nt9dodBB7CIK4Eochr6s2myQdswYly0HTpaUKSMk=
+			Kgb/1theLYzBEEDMubVL7gg2MH1ZOoGWtjccwFkp/6s=
 			</data>
 		</dict>
 	</dict>
